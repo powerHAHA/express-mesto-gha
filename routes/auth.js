@@ -4,7 +4,7 @@ const { celebrate, Joi } = require('celebrate');
 const {
   createUser,
   loginUser,
-} = require('../../123313/express-mesto-gha/controllers/users');
+} = require('../controllers/users');
 
 router.post(
   '/signin',
