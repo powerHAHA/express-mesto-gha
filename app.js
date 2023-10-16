@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 const router = require('./routes/index');
+const routerAuth = require('./routes/auth');
+const auth = require('./middlewares/auth');
+const handleError = require('./errors/handleError');
 
 const {
   PORT = 3000,
@@ -15,16 +19,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  req.user = {
-    _id: '65293caa53612aa6b1414edb',
-  };
-
-  next();
-});
-
+app.use('/', routerAuth);
+app.use(auth);
 app.use(router);
+app.use(errors());
+app.use(handleError);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
